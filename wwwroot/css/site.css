@@ -1,11 +1,10 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+﻿@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Lato:wght@400;700&display=swap');
 
 :root {
-    --primary-color: #F35C19;
-    --secondary-color: #000000;
-    --background-color: #FFFFFF;
-    --gray-light: #F7F7F7;
-    --gray-dark: #333333;
+    --primary-color: #D94F16; /* Un naranja más profundo, menos neón */
+    --secondary-color: #3E2C20; /* Un marrón café oscuro en lugar de negro */
+    --background-color: #FBF7F0; /* Un beige/crema muy suave */
+    --gray-light: #F0EBE3; /* Un gris un poco más cálido para fondos */
     --text-color: #1a1a1a;
     --radius: 10px;
 }
@@ -19,9 +18,13 @@
 
 html, body {
     height: 100%;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Lato', sans-serif;
     background-color: var(--background-color);
     color: var(--text-color);
+}
+h1, h2, h3, h4, .title {
+    font-family: 'Merriweather', serif;
+    font-weight: 700;
 }
 
 /* HEADER / TOP BAR */
@@ -122,176 +125,6 @@ html, body {
     overflow-y: auto;
 }
 
-/* PIZZA CARDS */
-.pizza-cards {
-    list-style: none;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1.5rem;
-    margin: 0;
-    padding: 0;
-}
-
-    .pizza-cards > li {
-        position: relative;
-        border-radius: 1rem;
-        overflow: hidden;
-        background-size: cover;
-        background-position: center;
-        height: 300px;
-        cursor: pointer;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-        transition: transform 0.2s ease-in-out;
-    }
-
-        .pizza-cards > li:hover {
-            transform: scale(1.05);
-        }
-
-/* 🔶 Cuadro naranja dinámico */
-.pizza-info {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    max-height: 100%; /* No sobrepasa la imagen */
-    background-color: rgba(243, 112, 33, 0.95);
-    color: white;
-    padding: 1rem;
-    box-sizing: border-box;
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    opacity: 0;
-    transform: translateY(100%);
-    transition: all 0.4s ease-in-out;
-    overflow: hidden;
-}
-
-/* 🔶 Cuando el mouse entra */
-.pizza-cards > li:hover .pizza-info {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.pizza-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
-    gap: 25px;
-    padding: 30px;
-    justify-content: center;
-    background-color: #fff5e6;
-}
-
-.pizza-card {
-    background-color: #ff9933;
-    border-radius: 20px;
-    box-shadow: 0px 4px 10px rgba(0,0,0,0.15);
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    height: 220px; /* más apaisada */
-    max-width: 700px;
-    margin: 0 auto;
-}
-
-    .pizza-card img {
-        width: 45%;
-        height: 100%;
-        object-fit: cover;
-        border-top-left-radius: 20px;
-        border-bottom-left-radius: 20px;
-    }
-
-.pizza-description {
-    width: 55%;
-    padding: 15px;
-    background-color: transparent;
-    color: #fff;
-    transition: all 0.3s ease;
-    overflow-y: auto;
-    font-size: 0.95rem;
-    transform: translateY(0);
-}
-
-/* Overlay animado si quieres mantener el efecto hover */
-.pizza-card:hover {
-    transform: scale(1.03);
-}
-
-/* RESPONSIVE: 2 columnas por defecto, 3 al ampliar pantalla */
-@media (min-width: 1400px) {
-    .pizza-list {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-@media (max-width: 900px) {
-    .pizza-list {
-        grid-template-columns: repeat(1, 1fr);
-    }
-
-    .pizza-card {
-        flex-direction: column;
-        height: auto;
-    }
-
-        .pizza-card img {
-            width: 100%;
-            height: 220px;
-            border-radius: 20px 20px 0 0;
-        }
-
-    .pizza-description {
-        width: 100%;
-        color: #fff;
-        background-color: #ff6600;
-    }
-}
-
-/* 🔶 Texto de descripción con scroll si se pasa */
-.pizza-info .description {
-    flex-grow: 1;
-    overflow-y: auto;
-    margin-bottom: 0.8rem;
-    scrollbar-width: thin;
-    scrollbar-color: #ffb27f transparent;
-}
-    .pizza-info .description::-webkit-scrollbar {
-        width: 6px;
-    }
-
-    .pizza-info .description::-webkit-scrollbar-thumb {
-        background-color: #ffb27f;
-        border-radius: 10px;
-    }
-/* 🔶 Título */
-.pizza-info .title {
-    font-size: 1.2rem;
-    font-weight: 700;
-    margin-bottom: 0.3rem;
-}
-
-.pizza-info .description {
-    font-size: 0.9rem;
-    color: #555;
-    margin-bottom: 0.8rem;
-}
-
-/* 🔶 Precio fijo al fondo */
-.pizza-info .price {
-    background-color: #000;
-    color: #fff;
-    padding: 0.4rem 0.8rem;
-    border-radius: 0.4rem;
-    font-weight: 600;
-    align-self: flex-start;
-}
-
 /* BUTTONS */
 button, .btn {
     background-color: var(--primary-color);
@@ -300,9 +133,11 @@ button, .btn {
     border-radius: var(--radius);
     padding: 0.6rem 1.2rem;
     cursor: pointer;
-    font-weight: 600;
-    text-transform: uppercase;
-    transition: 0.3s;
+    text-transform: none; /* Quita las mayúsculas, es más casual */
+    font-family: 'Lato', sans-serif; /* Asegura que use la fuente de cuerpo */
+    font-weight: 700;
+    letter-spacing: 0.5px; /* Un ligero espacio entre letras */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Sombra sutil al botón */
 }
 
 button:hover, .btn:hover {

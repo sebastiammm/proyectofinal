@@ -4,22 +4,6 @@
 @inject OrderState OrderState
 @layout MainLayout
 
-@* <div class="top-bar">
-    <a class="logo" href="">
-        <img src="img/logo.svg" />
-    </a>
-
-    <NavLink href="" class="nav-tab" Match="NavLinkMatch.All">
-        <img src="img/pizza-slice.svg" />
-        <div>Get Pizza</div>
-    </NavLink>
-
-    <NavLink href="myorders" class="nav-tab">
-        <img src="img/bike.svg" />
-        <div>My Orders</div>
-    </NavLink>
-</div> *@
-
 <div class="main">
   <h1>Seleccione su pizza</h1>
   <ul class="pizza-cards">
@@ -38,15 +22,6 @@
     }
   </ul>
 </div>
-
-@if (OrderState.ShowingConfigureDialog)
-{
-    <ConfigurePizzaDialog
-      Pizza="OrderState.ConfiguringPizza"
-      OnCancel="OrderState.CancelConfigurePizzaDialog"
-      OnConfirm="OrderState.ConfirmConfigurePizzaDialog" />
-}
-
 <div class="sidebar">
     @if (order.Pizzas.Any())
     {
@@ -55,13 +30,14 @@
 
             @foreach (var configuredPizza in order.Pizzas)
             {
-              <div class="cart-item">
-                  <a @onclick="@(() => OrderState.RemoveConfiguredPizza(configuredPizza))" class="delete-item">x</a>
-                  <div class="title">@(configuredPizza.Size)" @configuredPizza.Special.Name</div>
-                  <div class="item-price">
-                      @configuredPizza.GetFormattedTotalPrice()
-                  </div>
-              </div>
+                <div class="cart-item">
+                    <div class="title">@(configuredPizza.Size)" @configuredPizza.Special.Name</div>
+                    <div class="item-price">
+                        @configuredPizza.GetFormattedTotalPrice()
+                    </div>
+
+                    <a @onclick="@(() => OrderState.RemoveConfiguredPizza(configuredPizza))" class="delete-item">x</a>
+                </div>
             }
         </div>
     }
@@ -78,6 +54,14 @@
         </a>
     </div>
 </div>
+
+@if (OrderState.ShowingConfigureDialog)
+{
+    <ConfigurePizzaDialog
+      Pizza="OrderState.ConfiguringPizza"
+      OnCancel="OrderState.CancelConfigurePizzaDialog"
+      OnConfirm="OrderState.ConfirmConfigurePizzaDialog" />
+}
 
 @code {
   List<PizzaSpecial> specials = new List<PizzaSpecial>();
