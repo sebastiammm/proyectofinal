@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents a pre-configured template for a pizza a user can order
 /// </summary>
-/// holi
+/// olim
 public class PizzaSpecial
 {
     public int Id { get; set; }
