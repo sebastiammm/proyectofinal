@@ -1,0 +1,395 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+
+:root {
+    --primary-color: #F35C19;
+    --secondary-color: #000000;
+    --background-color: #FFFFFF;
+    --gray-light: #F7F7F7;
+    --gray-dark: #333333;
+    --text-color: #1a1a1a;
+    --radius: 10px;
+}
+
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+/* HEADER / TOP BAR */
+.top-bar {
+    height: 4.5rem;
+    background-color: #ff6600;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.logo img {
+    height: 4rem;
+    width: 21rem;
+}
+
+.nav-tab {
+    color: white;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 0.6rem 1.2rem;
+    border-radius: var(--radius);
+    transition: 0.3s;
+}
+
+.nav-tab:hover,
+.nav-tab.active {
+    background-color: var(--primary-color);
+    color: white;
+    text-decoration: none;
+}
+
+/* USER INFO (top-right) */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.user-info img {
+    width: 2.5rem;
+    border-radius: 50%;
+}
+
+.user-info .username {
+    font-weight: 600;
+    color: white;
+}
+
+/* CONTENT AREA */
+.content {
+    display: flex;
+    flex-direction: row;
+    margin-top: 4.5rem;
+    background-color: var(--gray-light);
+    min-height: calc(100vh - 4.5rem);
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 18rem;
+    background-color: #111;
+    color: white;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.sidebar a {
+    color: white;
+    text-decoration: none;
+    margin-bottom: 0.6rem;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.sidebar a:hover {
+    color: var(--primary-color);
+}
+
+/* MAIN AREA */
+.main {
+    flex-grow: 1;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+/* PIZZA CARDS */
+.pizza-cards {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+}
+
+    .pizza-cards > li {
+        position: relative;
+        border-radius: 1rem;
+        overflow: hidden;
+        background-size: cover;
+        background-position: center;
+        height: 300px;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        transition: transform 0.2s ease-in-out;
+    }
+
+        .pizza-cards > li:hover {
+            transform: scale(1.05);
+        }
+
+/* 🔶 Cuadro naranja dinámico */
+.pizza-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-height: 100%; /* No sobrepasa la imagen */
+    background-color: rgba(243, 112, 33, 0.95);
+    color: white;
+    padding: 1rem;
+    box-sizing: border-box;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: all 0.4s ease-in-out;
+    overflow: hidden;
+}
+
+/* 🔶 Cuando el mouse entra */
+.pizza-cards > li:hover .pizza-info {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.pizza-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+    gap: 25px;
+    padding: 30px;
+    justify-content: center;
+    background-color: #fff5e6;
+}
+
+.pizza-card {
+    background-color: #ff9933;
+    border-radius: 20px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.15);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 220px; /* más apaisada */
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+    .pizza-card img {
+        width: 45%;
+        height: 100%;
+        object-fit: cover;
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+    }
+
+.pizza-description {
+    width: 55%;
+    padding: 15px;
+    background-color: transparent;
+    color: #fff;
+    transition: all 0.3s ease;
+    overflow-y: auto;
+    font-size: 0.95rem;
+    transform: translateY(0);
+}
+
+/* Overlay animado si quieres mantener el efecto hover */
+.pizza-card:hover {
+    transform: scale(1.03);
+}
+
+/* RESPONSIVE: 2 columnas por defecto, 3 al ampliar pantalla */
+@media (min-width: 1400px) {
+    .pizza-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .pizza-list {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .pizza-card {
+        flex-direction: column;
+        height: auto;
+    }
+
+        .pizza-card img {
+            width: 100%;
+            height: 220px;
+            border-radius: 20px 20px 0 0;
+        }
+
+    .pizza-description {
+        width: 100%;
+        color: #fff;
+        background-color: #ff6600;
+    }
+}
+
+/* 🔶 Texto de descripción con scroll si se pasa */
+.pizza-info .description {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-bottom: 0.8rem;
+    scrollbar-width: thin;
+    scrollbar-color: #ffb27f transparent;
+}
+    .pizza-info .description::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .pizza-info .description::-webkit-scrollbar-thumb {
+        background-color: #ffb27f;
+        border-radius: 10px;
+    }
+/* 🔶 Título */
+.pizza-info .title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+}
+
+.pizza-info .description {
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 0.8rem;
+}
+
+/* 🔶 Precio fijo al fondo */
+.pizza-info .price {
+    background-color: #000;
+    color: #fff;
+    padding: 0.4rem 0.8rem;
+    border-radius: 0.4rem;
+    font-weight: 600;
+    align-self: flex-start;
+}
+
+/* BUTTONS */
+button, .btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    padding: 0.6rem 1.2rem;
+    cursor: pointer;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: 0.3s;
+}
+
+button:hover, .btn:hover {
+    background-color: #d94f16;
+}
+
+.btn-secondary {
+    background-color: var(--gray-dark);
+}
+
+.btn-secondary:hover {
+    background-color: #555;
+}
+
+/* ORDER TOTAL BAR */
+.order-total {
+    background-color: white;
+    padding: 1rem 1.5rem;
+    border-top: 2px solid var(--primary-color);
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+.order-total .total-price {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+/* DIALOG / POPUPS */
+.dialog-container {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.dialog {
+    background-color: white;
+    border-radius: var(--radius);
+    width: 420px;
+    max-width: 90%;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    overflow: hidden;
+    animation: fadeIn 0.3s ease;
+}
+
+.dialog-title {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.dialog-body {
+    padding: 1.5rem;
+}
+
+.dialog-buttons {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    border-top: 1px solid #eee; 
+}
+
+/* ANIMATIONS */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* SCROLL */
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color);
+    border-radius: 10px;
+}
