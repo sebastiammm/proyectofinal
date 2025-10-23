@@ -3,56 +3,81 @@
 @inject NavigationManager NavigationManager
 @inject OrderState OrderState
 @layout MainLayout
+@implements IDisposable 
 
 <div class="main">
-  <h1>Seleccione su pizza</h1>
-  <ul class="pizza-cards">
-    @if (specials != null)
-    {
-      @foreach (var special in specials)
-      {
-          <li @onclick="@(() => OrderState.ShowConfigurePizzaDialog(special))" style="background-image: url('@special.ImageUrl')">
-          <div class="pizza-info">
-          <span class="title">@special.Name</span>
-          @special.Description
-          <span class="price">@special.GetFormattedBasePrice()</span>
-          </div>
-        </li>
-      }
-    }
-  </ul>
-</div>
-<div class="sidebar">
-    @if (order.Pizzas.Any())
-    {
-        <div class="order-contents">
-            <h2>Tu orden</h2>
-
-            @foreach (var configuredPizza in order.Pizzas)
+    <div class="product-grid">
+        @if (specials != null)
+        {
+            @foreach (var special in specials)
             {
-                <div class="cart-item">
-                    <div class="title">@(configuredPizza.Size)" @configuredPizza.Special.Name</div>
-                    <div class="item-price">
-                        @configuredPizza.GetFormattedTotalPrice()
-                    </div>
+                <div class="product-card" @onclick="@(() => OrderState.ShowConfigurePizzaDialog(special))">
 
-                    <a @onclick="@(() => OrderState.RemoveConfiguredPizza(configuredPizza))" class="delete-item">x</a>
+                    <img class="product-image" src="@special.ImageUrl" alt="@special.Name" />
+
+                    <div class="product-info">
+                        <span class="title">@special.Name</span>
+                        @special.Description
+                        <span class="price">@special.GetFormattedBasePrice()</span>
+                    </div>
                 </div>
             }
+        }
+    </div>  
+</div>
+<div class="sidebar @(order.Pizzas.Any() ? "is-visible" : "") @(isMinimized ? "minimized" : "") @(isFalling ? "is-falling" : "")">
+    <div class="chain chain-left"></div>
+    <div class="chain chain-right"></div>
+    @if (order.Pizzas.Any())
+    {
+        <div class="cart-view-maximized @(isMinimized ? "hidden" : "")">
+
+            <h2 @onclick="ToggleMinimize">
+                Tu orden
+
+                <button class="btn-remove-all" @onclick="ClearCartAndFall" @onclick:stopPropagation="true">
+                    <i class="fa-solid fa-trash-can"></i>
+                </button>
+
+                <i class="fa-solid fa-chevron-down"></i>
+            </h2>
+
+            <div class="order-contents">
+                @foreach (var configuredPizza in order.Pizzas)
+                {
+                    <div class="cart-item">
+                        <div class="title">@(configuredPizza.Size)" @configuredPizza.Special.Name</div>
+                        <div class="item-price">
+                            @configuredPizza.GetFormattedTotalPrice()
+                        </div>
+                        <a @onclick="@(() => OrderState.RemoveConfiguredPizza(configuredPizza))" class="delete-item">x</a>
+                    </div>
+                }
+            </div>
+
+            <div class="order-total">
+                Total:
+                <span class="total-price">@order.GetFormattedTotalPrice()</span>
+                <a href="checkout" class="btn btn-warning">
+                    Order >
+                </a>
+            </div>
+        </div>
+
+        <div class="cart-view-minimized @(isMinimized ? "" : "hidden")" @onclick="ToggleMinimize">
+            <span>Total: @order.GetFormattedTotalPrice()</span>
+            <i class="fa-solid fa-chevron-up"></i>
         </div>
     }
     else
     {
-        <div class="empty-cart">Elija su Pizza<br>para empezar</div>
+        <div class="empty-cart">
+            <h2>Tu pedido</h2>
+            <div class="empty-cart-message">
+                Elija su Pizza<br>para empezar
+            </div>
+        </div>
     }
-
-    <div class="order-total @(order.Pizzas.Any() ? "" : "hidden")">
-        Total:
-        <span class="total-price">@order.GetFormattedTotalPrice()</span>
-        <a href="checkout" class="@(OrderState.Order.Pizzas.Count == 0 ? "btn btn-warning disabled" : "btn btn-warning")">
-            Order >
-        </a>
-    </div>
 </div>
 
 @if (OrderState.ShowingConfigureDialog)
@@ -64,12 +89,51 @@
 }
 
 @code {
-  List<PizzaSpecial> specials = new List<PizzaSpecial>();
-  Order order => OrderState.Order;
+    List<PizzaSpecial> specials = new List<PizzaSpecial>();
+    Order order => OrderState.Order;
+    bool isMinimized = false;
 
-  protected override async Task OnInitializedAsync()
-  {
-      specials = await HttpClient.GetFromJsonAsync<List<PizzaSpecial>>(NavigationManager.BaseUri + "specials");
-  }
+    void ToggleMinimize()
+    {
+        isMinimized = !isMinimized;
+    }
+
+    // --- AÑADE ESTA VARIABLE ---
+    bool isFalling = false;
+
+    // ... (tu función ToggleMinimize() existente) ...
+
+    // --- AÑADE ESTA NUEVA FUNCIÓN ---
+    async Task ClearCartAndFall()
+    {
+        // 1. Activa la animación
+        isFalling = true;
+
+        // 2. Espera 600ms para que la animación CSS termine
+        await Task.Delay(600);
+
+        // 3. Limpia la orden (esto hará que el carrito se oculte)
+        OrderState.ResetOrder();
+
+        // 4. Resetea el estado de la animación
+        isFalling = false;
+    }
+
+    // El método OnInitializedAsync con la suscripción al evento
+    protected override async Task OnInitializedAsync()
+    {
+        specials = await HttpClient.GetFromJsonAsync<List<PizzaSpecial>>(NavigationManager.BaseUri + "specials");
+
+        // Se suscribe al evento OnChange de OrderState
+        // Cuando OrderState avisa, Blazor refresca esta página (StateHasChanged)
+        OrderState.OnChange += StateHasChanged;
+    }
+    // --- ¡EL MÉTODO QUE FALTABA! ---
+    // Esto se ejecuta cuando sales de la página Index.
+    // Es crucial para "desuscribirse" del evento y evitar fugas de memoria.
+    public void Dispose()
+    {
+        OrderState.OnChange -= StateHasChanged;
+    }
 }
 		

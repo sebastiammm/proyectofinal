@@ -8,6 +8,7 @@ public static class SeedData
         {
             new PizzaSpecial()
             {
+                Id= 1,
                 Name = "Creamy 2-N-1",
                 Description = "PIZZA MITAD PEPPERONI MITAD JAMÓN Y CHAMPIÑONES CON BASE CREMOSA DE AJO ROSTIZADO",
                 BasePrice = 29.90M,
@@ -47,7 +48,7 @@ public static class SeedData
             },
             new PizzaSpecial()
             {
-                Id = 7,
+                Id = 6,
                 Name = "Familiar 3 Meat Treat",
                 Description = "PEPPERONI, SALCHICHA ITALIANA Y TOCINO",
                 BasePrice = 32.90M,
@@ -55,7 +56,7 @@ public static class SeedData
             },
             new PizzaSpecial()
             {
-                Id = 8,
+                Id = 7,
                 Name = "CRAZY POPS",
                 Description = "4 DELICIOSAS PORCIONES RELLENAS DE PEPPERONI Y QUESO",
                 BasePrice = 9.90m,

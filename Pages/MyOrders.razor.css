@@ -1,2 +1,85 @@
-﻿body {
+﻿/* ======================================= */
+/* ESTILOS PARA LA PÁGINA "MIS PEDIDOS"    */
+/* ======================================= */
+
+/* 1. Contenedor Principal (ajusta el título) */
+.main {
+    /* (El padding ya viene del .page-body) */
 }
+
+    .main h2 { /* Título "No se encontraron ordenes" */
+        font-family: 'Merriweather', serif; /* O la fuente de títulos que uses */
+        font-size: 2rem;
+        color: var(--text-color);
+        margin-bottom: 1.5rem;
+    }
+
+/* 2. La Lista de Pedidos */
+.orders-list {
+    display: flex; /* Cambiamos a flexbox */
+    flex-direction: column; /* Apila las tarjetas verticalmente */
+    gap: 1.5rem; /* Espacio entre tarjetas */
+}
+
+/* 3. La Tarjeta de cada Pedido */
+.list-group-item {
+    background-color: var(--white-color); /* Fondo blanco */
+    border-radius: var(--radius); /* Esquinas redondeadas */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Sombra suave */
+    padding: 1.5rem;
+    display: flex; /* Alinea los elementos internos */
+    align-items: center; /* Centra verticalmente */
+    gap: 1rem; /* Espacio entre columnas */
+    border: 1px solid #eee; /* Borde sutil */
+}
+
+    /* 4. Columnas dentro de la tarjeta */
+    .list-group-item .col {
+        /* La primera columna (fecha, ítems, precio) ocupa el espacio */
+        flex-grow: 1;
+    }
+
+        .list-group-item .col h5 { /* Fecha del pedido */
+            font-family: 'Merriweather', serif;
+            font-size: 1.1rem;
+            color: var(--primary-color); /* Naranja */
+            margin-bottom: 0.5rem;
+        }
+
+        .list-group-item .col strong { /* Texto en negrita */
+            font-weight: 700;
+            color: var(--text-color);
+        }
+
+    /* 5. El botón de "Track" */
+    .list-group-item .btn-success {
+        background-color: var(--accent-color); /* Marrón oscuro */
+        color: var(--white-color);
+        border: none;
+        padding: 0.6rem 1.2rem;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background-color 0.2s ease;
+    }
+
+        .list-group-item .btn-success:hover {
+            background-color: #5a4a3e; /* Marrón un poco más claro */
+        }
+
+/* 6. Estilo para el botón "Ir a ordenar" (cuando no hay pedidos) */
+.btn.btn-success {
+    background-color: var(--primary-color); /* Naranja */
+    color: var(--white-color);
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 30px; /* Píldora */
+    font-weight: 700;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+    text-transform: uppercase;
+}
+
+    .btn.btn-success:hover {
+        background-color: var(--accent-color); /* Marrón */
+    }

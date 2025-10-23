@@ -1,11 +1,19 @@
 ﻿@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Lato:wght@400;700&display=swap');
 
 :root {
-    --primary-color: #D94F16; /* Un naranja más profundo, menos neón */
-    --secondary-color: #3E2C20; /* Un marrón café oscuro en lugar de negro */
-    --background-color: #FBF7F0; /* Un beige/crema muy suave */
-    --gray-light: #F0EBE3; /* Un gris un poco más cálido para fondos */
-    --text-color: #1a1a1a;
+    /* 1. Naranja (Tomado de tus tarjetas) */
+    --primary-color: #F35C19;
+    /* 2. Marrón Oscuro (Tomado del texto de tus tarjetas) */
+    --accent-color: #3E2C20;
+    /* 3. Fondo Crema (El que ya tienes) */
+    --background-color: #FBF7F0;
+    /* 4. Texto (Usará el marrón) */
+    --text-color: #3E2C20;
+    /* 5. Blanco (Para el header y fondo de tarjetas) */
+    --white-color: #FFFFFF;
+    --toldo-rojo: #D92B2B; /* Un rojo pizzeria */
+    --toldo-amarillo: #ffa500; /* Un amarillo anaranjado */
+    /* Radio de esquinas */
     --radius: 10px;
 }
 
@@ -19,212 +27,150 @@
 html, body {
     height: 100%;
     font-family: 'Lato', sans-serif;
-    background-color: var(--background-color);
     color: var(--text-color);
-}
-h1, h2, h3, h4, .title {
-    font-family: 'Merriweather', serif;
-    font-weight: 700;
+    /* ¡FONDO ANIMADO GLOBAL! */
+    background-image: url('../img/diseño/fppx.png');
+    background-repeat: repeat;
+    background-color: var(--background-color, #FBF7F0);
+    animation: scrollBackground 30s linear infinite;
 }
 
-/* HEADER / TOP BAR */
-.top-bar {
-    height: 4.5rem;
-    background-color: #ff6600;
-    color: white;
+/* ======================================= */
+/* LAYOUT ESTRUCTURAL COMPLETO (CORREGIDO) */
+/* ======================================= */
+
+/* 1. HEADER (EL TOLDO) */
+.main-header {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    padding: 0 2rem;
-    position: fixed;
+    align-items: center;
+    padding: 1rem 2rem;
+    /* El Toldo */
+    background-image: repeating-linear-gradient( 90deg, var(--toldo-rojo), var(--toldo-rojo) 60px, var(--toldo-amarillo) 60px, var(--toldo-amarillo) 120px );
+    image-rendering: pixelated;
+    /* Layout */
+    position: sticky; /* Se pega arriba */
     top: 0;
-    width: 100%;
-    z-index: 1000;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    z-index: 200; /* Capa superior (encima de la nav) */
+    width: 100%; /* Ocupa todo el ancho */
 }
 
-.logo img {
-    height: 4rem;
-    width: 21rem;
-}
+    /* Zonas del Header (para centrar el logo) */
+    .main-header .header-zone-left,
+    .main-header .header-zone-right {
+        flex: 1;
+    }
 
-.nav-tab {
-    color: white;
-    text-transform: uppercase;
-    font-weight: 600;
-    padding: 0.6rem 1.2rem;
-    border-radius: var(--radius);
-    transition: 0.3s;
-}
+    .main-header .header-zone-center {
+        flex: 2;
+        text-align: center;
+        /* El logo va directo sobre el toldo, sin fondo blanco */
+    }
 
-.nav-tab:hover,
-.nav-tab.active {
-    background-color: var(--primary-color);
-    color: white;
-    text-decoration: none;
-}
+    .main-header .logo-link img {
+        height: 11rem; /* Altura del logo */
+        width: auto;
+        /* Damos al logo un fondo blanco para que resalte */
+        background-color: var(--white-color, #fff);
+        padding: 0.5rem 1rem;
+        border-radius: var(--radius, 10px);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
 
-/* USER INFO (top-right) */
-.user-info {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-}
+    /* Iconos (Moto y Perfil) */
+    .main-header .header-zone-right {
+        display: flex;
+        justify-content: flex-end; /* Los pega a la derecha */
+        align-items: center; /* Los centra verticalmente */
+    }
 
-.user-info img {
-    width: 2.5rem;
-    border-radius: 50%;
-}
+    .main-header .icon-link {
+        text-decoration: none;
+        color: var(--text-color, #3E2C20); /* Color marrón oscuro */
+        font-size: 1.6rem;
+        text-shadow: none;
+        margin-left: 1.8rem;
+        transition: 0.2s ease;
+    }
 
-.user-info .username {
-    font-weight: 600;
-    color: white;
-}
+        .main-header .icon-link:hover {
+            color: #000;
+            transform: scale(1.1);
+        }
 
-/* CONTENT AREA */
-.content {
-    display: flex;
-    flex-direction: row;
-    margin-top: 4.5rem;
-    background-color: var(--gray-light);
-    min-height: calc(100vh - 4.5rem);
-}
-
-/* SIDEBAR */
-.sidebar {
-    width: 18rem;
-    background-color: #111;
-    color: white;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-}
-
-.sidebar h3 {
-    color: var(--primary-color);
-    margin-bottom: 1rem;
-    font-weight: 700;
-}
-
-.sidebar a {
-    color: white;
-    text-decoration: none;
-    margin-bottom: 0.6rem;
-    font-weight: 500;
-    transition: 0.3s;
-}
-
-.sidebar a:hover {
-    color: var(--primary-color);
-}
-
-/* MAIN AREA */
-.main {
-    flex-grow: 1;
-    padding: 2rem;
-    overflow-y: auto;
-}
-
-/* BUTTONS */
-button, .btn {
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: var(--radius);
-    padding: 0.6rem 1.2rem;
-    cursor: pointer;
-    text-transform: none; /* Quita las mayúsculas, es más casual */
-    font-family: 'Lato', sans-serif; /* Asegura que use la fuente de cuerpo */
-    font-weight: 700;
-    letter-spacing: 0.5px; /* Un ligero espacio entre letras */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Sombra sutil al botón */
-}
-
-button:hover, .btn:hover {
-    background-color: #d94f16;
-}
-
-.btn-secondary {
-    background-color: var(--gray-dark);
-}
-
-.btn-secondary:hover {
-    background-color: #555;
-}
-
-/* ORDER TOTAL BAR */
-.order-total {
-    background-color: white;
-    padding: 1rem 1.5rem;
-    border-top: 2px solid var(--primary-color);
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-    position: fixed;
-    bottom: 0;
-    right: 0;
+/* 2. BARRA DE NAVEGACIÓN (IZQUIERDA) */
+.left-nav {
+    width: 15rem;
+    height: 100vh;
+    position: fixed; /* Fijo a la izquierda */
+    top: 0;
     left: 0;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 1rem;
+    z-index: 150; /* Capa media (debajo del header) */
+    background-color: transparent; /* Muestra el fondo de pizzas */
 }
 
-.order-total .total-price {
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: var(--primary-color);
+    .left-nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .left-nav li {
+        margin-bottom: 1.5rem;
+    }
+
+        /* Estilo de los botones píldora */
+        .left-nav li a {
+            display: inline-block;
+            padding: 1rem 1.8rem;
+            font-size: 1.8rem;
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s ease-in-out;
+        }
+
+            /* Hover de los botones */
+            .left-nav li a:hover {
+                background-color: var(--accent-color);
+                transform: translate(-3px, -3px);
+                box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
+            }
+
+/* 3. ÁREA DE CONTENIDO (DERECHA) */
+.main-content-area {
+    /* Hacemos espacio para el header y la nav */
+    padding-top: 6rem;
+    padding-left: 15rem;
+    /* ¡ESTA ES LA CORRECCIÓN! 
+      Quitamos el 'background-color' para que el fondo
+      animado del 'body' se vea a través.
+    */
+
+    min-height: 100vh;
 }
 
-/* DIALOG / POPUPS */
-.dialog-container {
-    position: fixed;
-    inset: 0;
-    background-color: rgba(0,0,0,0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2000;
+/* Padding interno de la página (pizzas) */
+.page-body {
+    padding: 2rem;
 }
 
-.dialog {
-    background-color: white;
-    border-radius: var(--radius);
-    width: 420px;
-    max-width: 90%;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-    overflow: hidden;
-    animation: fadeIn 0.3s ease;
-}
+/* 4. ANIMACIÓN DE FONDO */
+@keyframes scrollBackground {
+    from {
+        background-position: 0 0;
+    }
 
-.dialog-title {
-    background-color: var(--primary-color);
-    color: white;
-    padding: 1rem;
-    font-weight: 700;
-    text-align: center;
-}
-
-.dialog-body {
-    padding: 1.5rem;
-}
-
-.dialog-buttons {
-    display: flex;
-    justify-content: space-between;
-    padding: 1rem 1.5rem;
-    border-top: 1px solid #eee; 
-}
-
-/* ANIMATIONS */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* SCROLL */
-::-webkit-scrollbar {
-    width: 10px;
-}
-::-webkit-scrollbar-thumb {
-    background-color: var(--primary-color);
-    border-radius: 10px;
+    to {
+        background-position: 1056px 992px;
+    }
 }

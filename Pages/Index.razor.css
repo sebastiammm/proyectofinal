@@ -1,147 +1,203 @@
-﻿.main {
-    flex-grow: 1;
-    padding: 2rem;
-    overflow-y: auto;
-    /* Dejamos espacio para el carrito flotante de 25rem + márgenes */
-    margin-right: 28rem;
-}
-.pizza-cards {
-    list-style: none;
+﻿.product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1.5rem;
-    margin: 0;
-    padding: 0;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem 1.5rem;
+    /* --- ¡EL CAMBIO ESTÁ AQUÍ! --- */
+    /* 1. Quitamos el centrado y el ancho máximo */
+    /* max-width: 1200px; <-- Borrado */
+    /* margin: 0 auto;    <-- Borrado */
+    /* 2. Añadimos un relleno a la derecha para 
+          dejar espacio al carrito flotante.
+    */
+    padding-right: 25rem;
+    /* (El .page-body ya nos da el padding-left de 2rem) */
 }
-    .pizza-cards > li {
-        position: relative;
-        border-radius: 1rem;
-        overflow: hidden;
-        background-size: cover;
-        background-position: center;
-        height: 300px;
-        cursor: pointer;
-        box-shadow: 0 6px 15px rgba(62, 44, 32, 0.15);
-        transition: transform 0.2s ease-in-out;
+/* 2. La tarjeta de producto (el rectángulo alto) */
+/* MODIFICA ESTA REGLA */
+.product-card {
+    background-color: var(--white-color, #FFFFFF);
+    border-radius: var(--radius, 10px);
+    /* --- CAMBIO --- */
+    border: 1px solid #eee; /* Borde sutil */
+    /* -------------- */
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    cursor: pointer;
+    transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+    /* 3. La imagen del producto */
+    .product-card .product-image {
+        width: 100%;
+        height: 320px; /* <-- Altura fija para la imagen (ajusta si es necesario) */
+        object-fit: cover; /* Evita que la imagen se deforme */
+        display: block;
     }
-.pizza-cards > li:hover {
-    transform: scale(1.05);
-}
-/* 🔶 Cuadro naranja dinámico */
-.pizza-info {
+
+/* ======================================= */
+/* EFECTO HOVER (Como lo pediste)          */
+/* ======================================= */
+
+.product-info {
+    /* Posición y diseño */
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    max-height: 100%; /* No sobrepasa la imagen */
-    background-color: rgba(243, 112, 33, 0.95);
+    background-color: rgba(243, 112, 33, 0.95); /* Tapa naranja (del Estilo A) */
     color: white;
-    padding: 1rem;
+    padding: 1.5rem 1rem;
     box-sizing: border-box;
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    /* Animación (Oculto por defecto) */
     opacity: 0;
     transform: translateY(100%);
-    transition: all 0.4s ease-in-out;
-    overflow: hidden;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    /* Contenido interno */
+    display: flex;
+    flex-direction: column;
+    max-height: 100%;
+    overflow-y: auto;
 }
-/* 🔶 Cuando el mouse entra */
-.pizza-cards > li:hover .pizza-info {
+
+/* Cuando el mouse pasa por .product-card, muestra .product-info */
+.product-card:hover .product-info {
     opacity: 1;
     transform: translateY(0);
 }
-/* 🔶 Título */
-.pizza-info .title {
-    font-size: 1.2rem;
+
+/* Sombra más pronunciada al pasar el mouse */
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Estilos del texto dentro del hover */
+.product-info .title {
+    font-size: 1.3rem;
     font-weight: 700;
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.5rem;
 }
 
-.pizza-info .description {
+.product-info .description {
     font-size: 0.9rem;
-    color: #555;
-    margin-bottom: 0.8rem;
+    color: #fff; /* Asegura que la descripción sea blanca */
+    margin-bottom: 1rem;
+    flex-grow: 1;
 }
 
-/* 🔶 Precio fijo al fondo */
-.pizza-info .price {
+.product-info .price {
     background-color: #000;
     color: #fff;
     padding: 0.4rem 0.8rem;
     border-radius: 0.4rem;
     font-weight: 600;
-    align-self: flex-start;
+    align-self: flex-start; /* Se alinea a la izquierda */
 }
 
 /* ======================================= */
-/* ESTILOS DEL CARRITO (SIDEBAR)           */
+/* PASO 5: REDISEÑO DEL CARRITO FLOTANTE   */
 /* ======================================= */
+
+/* 1. El contenedor principal del carrito */
 .sidebar {
-    /* --- Posicionamiento Flotante --- */
-    position: fixed; /* Lo saca del layout y lo fija a la pantalla */
-    top: 7.5rem; /* 6rem (top-bar) + 1.5rem (margen) */
-    right: 1.5rem; /* Margen de la derecha */
-    z-index: 100; /* Se asegura que esté sobre las pizzas */
-    /* --- Diseño de Madera --- */
-    background-color: var(--secondary-color); /* Color marrón de fondo */
-    background-image: url('../img/texturas/madera.jpg'); /* <-- ¡TU IMAGEN! */
-    background-size: cover; /* Cubre todo el fondo */
-    /* --- Forma y Sombra --- */
-    width: 25rem; /* Mantenemos el ancho */
-    border-radius: var(--radius); /* ¡Esquinas circulares! */
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3); /* Sombra para que "flote" */
-    /* --- Contenido Interno --- */
-    color: white;
-    padding: 1rem;
+    /* --- Posicionamiento (Flotante desde abajo) --- */
+    position: fixed;
+    top: 15rem;
+    right: 2rem; /* Anclado 2rem desde la derecha */
+    z-index: 1000; /* Por encima de las tarjetas */
+    /* --- Diseño (Verde del mockup) --- */
+    width: 22rem; /* Ancho del carrito */
+    background-color: var(--accent-color, #3E2C20); /* El marrón oscuro */
+    background-image: none; /* Nos aseguramos de quitar cualquier imagen */
+
+    border-radius: var(--radius, 10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25); /* Sombra para "flotar" */
+    /* Contenido interno y altura */
     display: flex;
     flex-direction: column;
-    /* --- Altura y Scroll --- */
-    /* Altura máxima para que no se salga de la pantalla al hacer scroll */
-    max-height: calc(100vh - 9rem); /* (Alto Ventana - margen sup - margen inf) */
+    max-height: 70vh; /* Altura máxima (70% de la ventana) */
+    /* Transición para ocultarlo */
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
 }
 
-    .sidebar h2 {
-        color: var(--primary-color); /* Naranja */
-        font-weight: 700;
-        margin-bottom: 1rem;
+/* 2. Contenedor del carrito LLENO */
+.cart-full {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-height: 70vh; /* Asegura que no se desborde */
+}
+
+/* 3. Contenedor del carrito VACÍO */
+.empty-cart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+    .empty-cart .empty-cart-message {
+        padding: 3rem 2rem;
+        font-size: 1.1rem;
+        color: rgba(255, 255, 255, 0.7);
+        text-align: center;
     }
 
-.empty-cart {
-    text-align: center;
+/* 4. Cabecera Naranja ("Tu pedido") */
+.sidebar h2 {
+    background-color: var(--primary-color, #F35C19); /* Naranja */
+    color: #fff;
     font-size: 1.2rem;
-    color: #888;
-    flex-grow: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    font-weight: 700;
+    text-align: center;
+    padding: 0.75rem 1rem;
+    margin: 0;
+    /* Redondea solo las esquinas superiores */
+    border-top-left-radius: var(--radius, 10px);
+    border-top-right-radius: var(--radius, 10px);
 }
 
+/* Si el carrito está vacío, redondea también las esquinas de abajo */
+.empty-cart h2 {
+    border-bottom-left-radius: var(--radius, 10px);
+    border-bottom-right-radius: var(--radius, 10px);
+}
+
+/* 5. Estilos de la lista de pizzas */
 .order-contents {
     flex-grow: 1; /* Ocupa el espacio disponible */
     overflow-y: auto; /* Scroll si hay muchas pizzas */
+    padding: 1rem;
 }
 
 .cart-item {
     display: flex;
     align-items: center;
-    border-bottom: 1px solid var(--gray-dark);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Borde blanco sutil */
     padding: 0.8rem 0;
 }
 
     .cart-item .title {
         flex-grow: 1;
         font-weight: 600;
+        color: #fff;
+        text-shadow: none;
     }
 
     .cart-item .item-price {
         font-weight: 600;
-        color: var(--primary-color);
+        color: #fff;
+        margin-left: 1rem;
+        /* ¡AÑADE ESTA LÍNEA! */
+        text-shadow: none;
     }
 
     .cart-item .delete-item {
-        background-color: #8B0000; /* Rojo oscuro */
+        background-color: rgba(0, 0, 0, 0.2);
         color: white;
         font-family: monospace;
         font-weight: bold;
@@ -154,31 +210,206 @@
         text-decoration: none;
         cursor: pointer;
         transition: 0.2s;
-        margin-left: 1rem;
+        margin-left: 1rem; /* Margen para separarlo del precio */
     }
 
         .cart-item .delete-item:hover {
-            background-color: #ff0000; /* Rojo brillante */
+            background-color: #ff0000;
         }
 
+/* 6. Estilos del Total y Botón de Ordenar */
 .order-total {
-    border-top: 2px solid var(--primary-color);
-    padding-top: 1rem;
-    font-size: 1.3rem;
+    background-color: rgba(0, 0, 0, 0.15); /* Fondo un poco más oscuro */
+    padding: 1rem 1.5rem;
+    font-size: 1.2rem;
     font-weight: 700;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    /* Redondea solo las esquinas inferiores */
+    border-bottom-left-radius: var(--radius, 10px);
+    border-bottom-right-radius: var(--radius, 10px);
+    color: #fff;
+    /* ¡AÑADE ESTA LÍNEA! */
+    text-shadow: none;
 }
 
     .order-total .total-price {
-        color: var(--primary-color);
-        float: right; /* Alinea el precio a la derecha */
+        color: #fff;
+        float: right;
     }
 
     .order-total .btn {
         width: 100%;
         margin-top: 1rem;
-        font-size: 1.2rem;
+        padding: 0.8rem;
+        font-size: 1.1rem;
+        background-color: var(--primary-color, #D94F16);
+        color: #fff;
+        border: none;
+        text-transform: none; /* Quitamos las mayúsculas */
+        font-weight: 700;
+        border-radius: 8px; /* Esquinas redondeadas para el botón */
     }
 
-    .order-total.hidden {
+        .order-total .btn.disabled {
+            background-color: #888;
+        }
+
+@media (max-width: 1024px) {
+    .product-grid {
+        /* Pasamos a 2 columnas en tablets */
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 90%;
+    }
+}
+
+@media (max-width: 600px) {
+    .product-grid {
+        /* Pasamos a 1 columna en celulares */
+        grid-template-columns: 1fr;
+    }
+}
+/* ======================================= */
+/* PASO 3 (REVISADO): ANIMACIÓN CARRITO    */
+/* ======================================= */
+
+/* 1. Contenedor Base del Carrito */
+/* (Mantenemos la animación de deslizamiento inicial) */
+
+.sidebar.is-visible {
+    transform: translateY(0);
+    opacity: 1; /* Lo hace visible */
+    pointer-events: auto; /* Se puede clickear */
+}
+
+/* 3. Vistas Maximizada y Minimizada */
+
+/* Por defecto, la vista minimizada está oculta */
+.cart-view-minimized {
+    display: none;
+}
+
+/* 4. ESTADO MINIMIZADO (¡La magia!) */
+
+/* Cuando .sidebar.minimized está activo: */
+.sidebar.minimized {
+    /* REQ 3: ¡SIN MADERA! Cambiamos el fondo a naranja */
+    background-color: var(--primary-color, #F35C19);
+    background-image: none; /* Quitamos la textura de madera */
+    /* Colapsamos la altura para que solo quepa la barra naranja */
+    max-height: 100px;
+}
+
+    .sidebar.minimized .cart-view-maximized {
+        /* Oculta la vista de madera */
         display: none;
     }
+
+    .sidebar.minimized .cart-view-minimized {
+        /* Muestra la vista naranja */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        /* REQ 2: Estilos de la barra naranja */
+        color: white;
+        padding: 1rem 1.5rem;
+        cursor: pointer;
+        font-size: 1.2rem;
+        font-weight: 700;
+        height: 100%; /* Ocupa la altura colapsada del .sidebar */
+    }
+
+/* 5. Ajustes al <h2> para el botón de minimizar */
+/* REQ 1: Hacemos que el <h2> sea clickeable */
+.sidebar h2 {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+    .sidebar h2 i {
+        margin-right: 0.5rem;
+        font-size: 1rem; /* Tamaño de la flecha */
+    }
+/* AÑADE ESTO AL FINAL */
+h1 {
+    font-family: 'Merriweather', serif; /* (O la fuente que elegiste) */
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-color, #3E2C20); /* Usa el marrón oscuro */
+    margin-bottom: 2rem;
+}
+.chain {
+    position: absolute;
+    top: -50px; /* Inicia 50px por "encima" del letrero */
+    width: 6px;
+    height: 60px; /* Altura de la cadena (ajusta si es necesario) */
+    /* Color de cadena (marrón oscuro) */
+    background-color: var(--text-color, #3E2C20);
+    /* Borde sutil para darle textura */
+    border: 1px solid #5a4a3e;
+    /* Evita que se vea afectado por la animación del padre */
+    z-index: -1;
+}
+
+.chain-left {
+    left: 2rem; /* Posición de la cadena izquierda */
+}
+
+.chain-right {
+    right: 2rem; /* Posición de la cadena derecha */
+}
+
+/* ======================================= */
+/* ANIMACIÓN DE CAÍDA DEL CARRITO          */
+/* ======================================= */
+
+/* 1. Estilo del nuevo botón de basura */
+.btn-remove-all {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s, transform 0.2s;
+    /* Lo separamos del título */
+    position: absolute;
+    left: 8rem; /* Ajusta esto para centrarlo */
+}
+
+    .btn-remove-all:hover {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+
+/* 2. La animación de "caída" */
+@keyframes fall-and-swing {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+
+    30% {
+        /* Primer balanceo: más exagerado */
+        transform: translateY(50px) rotate(15deg);
+    }
+
+    60% {
+        /* ¡NUEVO PASO! Se balancea hacia el otro lado */
+        transform: translateY(40px) rotate(-10deg);
+    }
+
+    100% {
+        /* Caída final: más lejos y con más giro */
+        transform: translateY(1200px) rotate(30deg);
+        opacity: 0;
+    }
+}
+
+/* 3. La regla que activa la animación */
+.sidebar.is-falling {
+    /* ¡CAMBIO AQUÍ! (de 0.6s a 1.0s) */
+    animation: fall-and-swing 0.6s ease-in forwards;
+    transition: none;
+}

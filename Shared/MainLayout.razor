@@ -1,24 +1,37 @@
 ﻿@inherits LayoutComponentBase
 
-<div id="app">
-
-    <header class="top-bar">
-        <a class="logo" href="">
-            <img src="img/iconolargo.png" />
-        </a>
-
-        <NavLink href="myorders" class="nav-tab">
-            <img src="img/bike.svg" />
-            <div>My Orders</div>
-        </NavLink>
-    </header>
-
-    <div class="content">
-        @Body
+<header class="main-header">
+    <div class="header-zone-left">
     </div>
 
-    <footer>
-        &copy; Blazing Pizza @DateTime.UtcNow.Year
-    </footer>
+    <div class="header-zone-center">
+        <a href="" class="logo-link">
+            <img src="img/iconolargo.png" alt="Dorado's Pizza" />
+        </a>
+    </div>
 
-</div>
+    <div class="header-zone-right">
+        <a href="myorders" class="icon-link" title="Mis Pedidos">
+            <i class="fa-solid fa-motorcycle"></i>
+        </a>
+        <a href="profile" class="icon-link" title="Mi Cuenta">
+            <i class="fa-solid fa-user"></i>
+        </a>
+    </div>
+</header>
+
+<nav class="left-nav">
+    <ul>
+        <li><a href="#">Menu</a></li>
+        <li><a href="#">Pizzas</a></li>
+        <li><a href="#">Bebidas</a></li>
+        <li><a href="#">Extras</a></li>
+        <li><a href="#">Salsas</a></li>
+    </ul>
+</nav>
+
+<main class="main-content-area">
+    <div class="page-body">
+        @Body
+    </div>
+</main>

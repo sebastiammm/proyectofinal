@@ -1,0 +1,122 @@
+﻿/* ======================================= */
+/* PASO 6: REDISEÑO DEL POPUP DE PIZZA     */
+/* ======================================= */
+
+/* 1. El fondo oscuro (Overlay) */
+.dialog-container {
+    position: fixed;
+    inset: 0; /* (top:0, left:0, right:0, bottom:0) */
+    z-index: 300; /* Por encima de la barra de navegación */
+    /* Fondo oscuro semi-transparente */
+    background-color: rgba(0, 0, 0, 0.7);
+    /* Centra el popup */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Animación de aparición */
+    animation: fadeIn 0.3s ease;
+}
+
+/* 2. El popup (la tarjeta blanca) */
+.dialog {
+    background-color: #fff;
+    border-radius: var(--radius, 10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 500px; /* Ancho del popup */
+    overflow: hidden; /* Para que el título respete las esquinas */
+    /* Animación de entrada */
+    transform: translateY(-10px);
+    animation: slideIn 0.3s ease-out forwards;
+}
+
+/* 3. El título y la descripción */
+.dialog-title {
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid #eee;
+}
+
+    .dialog-title h2 {
+        font-family: 'Merriweather', serif; /* Si decidiste usar esta fuente */
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
+        color: var(--text-color, #1a1a1a);
+    }
+
+/* 4. El cuerpo (con el slider) */
+.dialog-body {
+    padding: 2rem;
+    font-size: 1.1rem;
+}
+
+    .dialog-body label {
+        font-weight: 700;
+        margin-right: 1rem;
+    }
+
+/* 5. Los botones */
+.dialog-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #f9f9f9; /* Un fondo gris claro para los botones */
+    border-top: 1px solid #eee;
+}
+
+    .dialog-buttons .price {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--text-color, #1a1a1a);
+    }
+
+    /* Botones con los nuevos estilos */
+    .dialog-buttons .btn {
+        padding: 0.6rem 1.2rem;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s ease;
+    }
+
+    .dialog-buttons .btn-secondary {
+        background-color: #e0e0e0; /* Botón de cancelar gris */
+        color: #333;
+    }
+
+        .dialog-buttons .btn-secondary:hover {
+            background-color: #ccc;
+        }
+
+    .dialog-buttons .btn-success {
+        background-color: #1a8b4a; /* ¡Verde, como el carrito! */
+        color: #fff;
+    }
+
+        .dialog-buttons .btn-success:hover {
+            background-color: #136a3a;
+        }
+
+/* 6. Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
